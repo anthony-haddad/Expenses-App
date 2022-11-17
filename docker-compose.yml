@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: em_backend
+    build:
+      context: ./docker/php
+      args:
+        - uid=${UID}
+        - user=${USER}
+    volumes:
+      - ./backend:/var/www/backend
+  frontend:
+    container_name: em_frontend
+    build:
+      context: ./docker/npm
+      args:
+        - uid=${UID}
+        - user=${USER}
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 3000:3000
+  nginx:
+    container_name: em_nginx
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./docker/nginx/em.${ENV}.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www
+    ports:
+      - 81:80
+  database:
+    image: mysql:8
+    container_name: em_database
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=expenses_app
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    ports:
+      - 3307:3306
+    volumes:
+      - data:/var/lib/mysql
+
+volumes:
+  data:
