@@ -14,8 +14,8 @@ trait RequestValidation
         return Validator::make(
             $request->only(['value', 'description']),
             [
-                'value'       => 'required|integer|min:1',
-                'description' => 'required|max:100'
+                'value'       => 'required|numeric|min:1',
+                'description' => 'required|string|max:100'
             ]
         );
     }

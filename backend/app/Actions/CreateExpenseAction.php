@@ -29,7 +29,7 @@ class CreateExpenseAction
 
             return response()->json([
                 'success' => false,
-                'message' => 'Something went wrong when creating an expense'
+                'message' => $e->getMessage(),
             ]);
         }
     }
