@@ -29,4 +29,6 @@ jobs:
           CACHE_DRIVER: array
           SESSION_DRIVER: array
           QUEUE_DRIVER: sync
-        run: cd backend && vendor/bin/phpunit
+        run: |
+          cd backend
+          php artisan test
