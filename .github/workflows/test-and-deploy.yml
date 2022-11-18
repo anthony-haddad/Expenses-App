@@ -1,0 +1,14 @@
+name: Expenses Manager
+
+on:
+  push:
+    branches: [staging]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check php version
+        run: php --version
+      - name: check composer version
+        run: composer --version
