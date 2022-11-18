@@ -22,6 +22,11 @@ jobs:
           cd backend
           mkdir -p database
           touch database/database.sqlite
+      - name: install npm packages
+        run: |
+          cd frontend
+          npm ci 
+          npm run build
       - name: run tests
         env:
           DB_CONNECTION: sqlite
