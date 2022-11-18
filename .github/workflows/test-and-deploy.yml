@@ -10,7 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: copy env
-        run: cd backend && php -r "file_exists('.env') || copy('.env.example', '.env')"
+        # run: cd backend && php -r "file_exists('.env') || copy('.env.example', '.env')"
+        run: ls -ll
       - name: install deps
         run: composer install
       - name: generate key
