@@ -8,7 +8,24 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: check php version
-        run: php --version
-      - name: check composer version
-        run: composer --version
+      - uses: actions/checkout@v3
+      - name: copy env
+        run: cd backend && php -r "file_exists('.env') || copy('.env.example', '.env')"
+      - name: install deps
+        run: composer install
+      - name: generate key
+        run: php artisan key:generate
+      - name: DIR permissions
+        run: chmod -R 777 storage bootstrap/cache
+      - name: create db
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+      - name: run tests
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+          CACHE_DRIVER: array
+          SESSION_DRIVER: array
+          QUEUE_DRIVER: sync
+        run: vendor/bin/phpunit
