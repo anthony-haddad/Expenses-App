@@ -36,5 +36,7 @@ jobs:
           known_hosts: 'GHA'
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: disable host key checking
+        run: ssh -o "StrictHostKeyChecking no" ubuntu@${{ secrets.SSH_HOST }}
       - name: Execute commands on remote server
         run: ssh ubuntu@${{ secrets.SSH_HOST }} ls -ll
