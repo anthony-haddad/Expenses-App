@@ -10,16 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: copy env
-        # run: cd backend && php -r "file_exists('.env') || copy('.env.example', '.env')"
-        run: ls -ll
+        run: cd backend && cp .env.example .env && rm .env.testing
       - name: install deps
-        run: composer install
+        run: cd backend && composer install
       - name: generate key
-        run: php artisan key:generate
+        run: cd backend && php artisan key:generate
       - name: DIR permissions
-        run: chmod -R 777 storage bootstrap/cache
+        run: cd backend && chmod -R 777 storage bootstrap/cache
       - name: create db
         run: |
+          cd backend
           mkdir -p database
           touch database/database.sqlite
       - name: run tests
@@ -29,4 +29,4 @@ jobs:
           CACHE_DRIVER: array
           SESSION_DRIVER: array
           QUEUE_DRIVER: sync
-        run: vendor/bin/phpunit
+        run: cd backend && vendor/bin/phpunit
