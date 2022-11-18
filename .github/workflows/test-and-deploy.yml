@@ -42,4 +42,6 @@ jobs:
       - name: disable host key checking
         run: ssh -o "StrictHostKeyChecking no" ubuntu@${{ secrets.SSH_HOST }}
       - name: Execute commands on remote server
-        run: ssh ubuntu@${{ secrets.SSH_HOST }} ls -ll
+        run: |
+          ssh ubuntu@${{ secrets.SSH_HOST }} ls -ll
+          rsync -r --exclude='frontend/node_modules' ../Expenses-App ubuntu@${{ secrets.SSH_HOST }}:/home/ubuntu
