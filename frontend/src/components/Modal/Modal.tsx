@@ -3,9 +3,9 @@ import { Modal as ModalItem } from 'react-bootstrap';
 import { useModalStore } from '../../utils/store/store';
 import DeleteExpenseForm from '../Forms/DeleteExpenseForm';
 
-interface ModalProps {
-    children: React.ReactNode;
-}
+// interface ModalProps {
+//     children: React.ReactNode;
+// }
 
 const Modal = () => {
     const { action, isOpen, setIsOpen } = useModalStore();

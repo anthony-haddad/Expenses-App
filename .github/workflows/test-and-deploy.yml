@@ -1,0 +1,48 @@
+name: Expenses Manager
+
+on:
+  push:
+    branches: [staging]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: copy env
+        run: cd backend && cp .env.example .env && rm .env.testing
+      - name: install deps
+        run: cd backend && composer install -q --no-ansi --no-interaction --no-scripts --no-progress
+      - name: generate key
+        run: cd backend && php artisan key:generate
+      - name: DIR permissions
+        run: cd backend && chmod -R 777 storage bootstrap/cache
+      - name: create db
+        run: |
+          cd backend
+          mkdir -p database
+          touch database/database.sqlite
+      - name: install npm packages
+        run: |
+          cd frontend
+          npm ci 
+          REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }} npm run build
+      - name: run tests
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: |
+          cd backend
+          php artisan test
+      - name: ssh into server
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_SECRET_KEY }}
+          known_hosts: 'GHA'
+      - name: disable host key checking
+        run: ssh -o "StrictHostKeyChecking no" ubuntu@${{ secrets.SSH_HOST }}
+      - name: Execute commands on remote server
+        run: |
+          ssh ubuntu@${{ secrets.SSH_HOST }} /home/ubuntu/pre-deploy-script.sh
+          rsync -r --exclude='frontend/node_modules' ../Expenses-App ubuntu@${{ secrets.SSH_HOST }}:/home/ubuntu
+          ssh ubuntu@${{ secrets.SSH_HOST }} /home/ubuntu/post-deploy-script.sh
