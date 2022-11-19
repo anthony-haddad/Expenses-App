@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal as ModalItem } from 'react-bootstrap';
 import { useModalStore } from '../../utils/store/store';
+import CreateExpenseForm from '../Forms/CreateExpenseForm';
 import DeleteExpenseForm from '../Forms/DeleteExpenseForm';
 
 // interface ModalProps {
@@ -12,7 +13,7 @@ const Modal = () => {
 
     const getModalContent = () => {
         if (action === 'delete expense') return <DeleteExpenseForm />
-        // if (action === 'create expense') return <CreateExpenseForm />
+        if (action === 'create expense') return <CreateExpenseForm />
         // if (action === 'edit expense') return <EditExpenseForm />
 
         return null;

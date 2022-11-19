@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table as TableItem } from 'react-bootstrap'; 
 import Layout from '../Layout/Layout';
-import Cockpit from './Cockpit';
+import Cockpit from './Cockpit/Cockpit';
 import TableBody from './TableBody';
 import TableHead from './TableHead';
 
