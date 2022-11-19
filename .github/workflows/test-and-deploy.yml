@@ -2,7 +2,7 @@ name: Expenses Manager
 
 on:
   push:
-    branches: [staging]
+    branches: [main]
 
 jobs:
   test:
