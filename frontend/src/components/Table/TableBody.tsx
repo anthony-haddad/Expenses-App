@@ -7,7 +7,7 @@ import { ExpenseModel } from '../../utils/types/expense';
 
 const TableBody = () => {
     const { setAction, setIsOpen } = useModalStore();
-    const { setSelectedExpenseId } = useTableStore();
+    const { setSelectedExpenseId, setExpense } = useTableStore();
     const { data } = useQuery('getAllExpenses', () => ExpenseService.getAllExpenses());
     const expensesData = data?.data || [];
 
@@ -19,6 +19,14 @@ const TableBody = () => {
         setIsOpen(true);
     }
 
+    const onUpdateHandler = (e: React.MouseEvent, id: number) => {
+        e.preventDefault();
+        setSelectedExpenseId(id);
+        setExpense(expensesData.find((el: ExpenseModel) => el.id === id))
+        setAction('edit expense');
+        setIsOpen(true);
+    }
+
     return (
         <tbody>
             {expensesData.map((expense: ExpenseModel) => (
@@ -26,7 +34,12 @@ const TableBody = () => {
                     <td>{expense.value}$</td>           
                     <td>{expense.description}</td>
                     <td colSpan={2}>
-                        <Button variant='primary'>Edit</Button>
+                        <Button
+                            variant='primary'
+                            onClick={(e) => onUpdateHandler(e, expense.id)}
+                        >
+                            Edit
+                        </Button>
                         <Button
                             className='ms-2'
                             variant='danger'

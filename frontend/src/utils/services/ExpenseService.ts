@@ -39,6 +39,20 @@ class ExpenseService {
 
         return data;
     }
+
+    static async updateExpense({ expense, id }: { expense: expense, id: null | number }) {
+        const res = await fetch(`${ExpenseService.baseUrl}/expense/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(expense)
+        })
+
+        const data = await res.json();
+
+        return data;
+    }
 }
 
 export default ExpenseService;
