@@ -1,6 +1,6 @@
 
 class ExpenseService {
-    static baseUrl: string = 'http://localhost:81/api';
+    static baseUrl: string = process.env.REACT_APP_BASE_URL || 'http://localhost:81/api';
 
     static async getAllExpenses() {
         const res = await fetch(`${ExpenseService.baseUrl}/expense`, {

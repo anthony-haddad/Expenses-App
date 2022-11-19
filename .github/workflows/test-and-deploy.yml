@@ -26,7 +26,7 @@ jobs:
         run: |
           cd frontend
           npm ci 
-          npm run build
+          REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }} npm run build
       - name: run tests
         env:
           DB_CONNECTION: sqlite
@@ -43,5 +43,6 @@ jobs:
         run: ssh -o "StrictHostKeyChecking no" ubuntu@${{ secrets.SSH_HOST }}
       - name: Execute commands on remote server
         run: |
-          ssh ubuntu@${{ secrets.SSH_HOST }} ls -ll
+          ssh ubuntu@${{ secrets.SSH_HOST }} /home/ubuntu/pre-deploy-script.sh
           rsync -r --exclude='frontend/node_modules' ../Expenses-App ubuntu@${{ secrets.SSH_HOST }}:/home/ubuntu
+          ssh ubuntu@${{ secrets.SSH_HOST }} /home/ubuntu/post-deploy-script.sh
