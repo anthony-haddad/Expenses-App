@@ -5,8 +5,10 @@ import { expense } from '../types/expense';
 interface TableStore {
     expense: expense;
     selectedExpenseId: null | number;
+    searchTerm: string;
     setExpense: (val: expense) => void;
     setSelectedExpenseId: (val: null | number) => void;
+    setSearchTerm: (val: string) => void;
 }
 
 interface ModalStore {
@@ -22,8 +24,10 @@ export const useTableStore = create<TableStore>((set) => ({
         description: '',
     },
     setExpense: (val) => set(() => ({ expense: val })),
+    searchTerm: '',
     selectedExpenseId: null,
     setSelectedExpenseId: (val) => set(() => ({ selectedExpenseId: val })),
+    setSearchTerm: (val) => set(() => ({ searchTerm: val })),
 }));
 
 export const useModalStore = create<ModalStore>((set) => ({

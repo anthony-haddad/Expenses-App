@@ -1,17 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useModalStore } from '../../../utils/store/store';
+import { useModalStore, useTableStore } from '../../../utils/store/store';
 import Loop from '../../Icons/Loop';
 import Plus from '../../Icons/Plus';
 import classes from './Cockpit.module.css';
 
 const Search = () => {
+    const { setSearchTerm } = useTableStore();
+    const [input, setInput] = useState('');
+
+    const onSubmitHandler = (e: React.FormEvent) => {
+        e.preventDefault();
+        setSearchTerm(input);
+    }
+
     return (
-        <Form className='d-flex'>
+        <Form className='d-flex' onSubmit={onSubmitHandler}>
             <Form.Group>
-                <Form.Control type='text' placeholder='Search here...'></Form.Control>
+                <Form.Control
+                    type='text'
+                    value={input}
+                    placeholder='Search here...'
+                    onChange={(e) => setInput(e.target.value)}
+                />
             </Form.Group>
-            <Loop className={classes.searchIcon} />
+            <Button className={classes.submitBtn} type={'submit'}>
+                <Loop className={classes.searchIcon} />
+            </Button>
         </Form>
     )
 }

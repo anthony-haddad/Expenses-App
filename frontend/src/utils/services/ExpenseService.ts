@@ -3,8 +3,8 @@ import { expense } from "../types/expense";
 class ExpenseService {
     static baseUrl: string = process.env.REACT_APP_BASE_URL || 'http://localhost:81/api';
 
-    static async getAllExpenses() {
-        const res = await fetch(`${ExpenseService.baseUrl}/expense`, {
+    static async getAllExpenses(searchTerm: string, page: number) {
+        const res = await fetch(`${ExpenseService.baseUrl}/expense?page=${page}&q=${searchTerm}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
