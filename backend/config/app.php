@@ -212,5 +212,5 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
-    'per_page' => env('PER_PAGE', 15),
+    'per_page' => env('PER_PAGE', 10),
 ];

@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return (new GetAllExpensesAction)();
+        return (new GetAllExpensesAction)($request);
     }
 
     public function store(Request $request): JsonResponse
