@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
@@ -11,8 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateExpenseForm = () => {
     const { expense, selectedExpenseId } = useTableStore();
+    const [isLoading, setIsLoading] = useState(false);
     const { setIsOpen } = useModalStore();
-    const { handleSubmit, register, formState: { isSubmitted, errors }, setValue } = useForm<expense>();
+    const { handleSubmit, register, formState: { errors }, setValue } = useForm<expense>();
     const queryClient = useQueryClient();
 
     const updateExpenseMutation = useMutation(ExpenseService.updateExpense, {
@@ -23,15 +24,21 @@ const UpdateExpenseForm = () => {
                 position: toast.POSITION.BOTTOM_RIGHT,
             })
         },
+        onSettled: () => setIsLoading(false),
     });
 
     const onSubmitHandler = handleSubmit((val) => {
+        setIsLoading(true);
         updateExpenseMutation.mutate({expense: val, id: selectedExpenseId});
     })
 
     const valueError = useMemo(() => {
         if (errors?.value?.type === 'required') {
             return 'required'; 
+        }
+
+        if (errors?.value?.type === 'maxLength') {
+            return 'max digits allowed is 8';
         }
 
         return '';
@@ -50,6 +57,13 @@ const UpdateExpenseForm = () => {
 
     }, [errors.description]);
 
+    const shouldDisableSubmit = () => {
+        if (!!Object.values(errors).length) return true;
+        if (isLoading) return true;
+
+        return false;
+    };
+
     useEffect(() => {
         setValue('value', expense.value);
         setValue('description', expense.description);
@@ -63,7 +77,7 @@ const UpdateExpenseForm = () => {
                     <Form.Control
                         className={errors.value && 'border border-danger'}
                         type='number'
-                        {...register('value', { required: true })}
+                        {...register('value', { required: true, maxLength: 8 })}
                     />
                     {!!valueError && (
                         <span className={classes.error}>
@@ -85,7 +99,7 @@ const UpdateExpenseForm = () => {
                 </Form.Group>
                 <Button
                     type='submit'
-                    disabled={isSubmitted}
+                    disabled={shouldDisableSubmit()}
                     className='mt-2'
                 >
                     Save
