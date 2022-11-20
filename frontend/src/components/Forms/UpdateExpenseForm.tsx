@@ -2,10 +2,12 @@ import React, { useEffect, useMemo } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import ExpenseService from '../../utils/services/ExpenseService';
 import { useModalStore, useTableStore } from '../../utils/store/store';
 import { expense } from '../../utils/types/expense';
 import classes from './Forms.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateExpenseForm = () => {
     const { expense, selectedExpenseId } = useTableStore();
@@ -14,9 +16,12 @@ const UpdateExpenseForm = () => {
     const queryClient = useQueryClient();
 
     const updateExpenseMutation = useMutation(ExpenseService.updateExpense, {
-        onSuccess: () => {
-            queryClient.invalidateQueries('getAllExpenses');
+        onSuccess: async (res) => {
+            await queryClient.invalidateQueries('getAllExpenses');
             setIsOpen(false);
+            toast.success(res.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            })
         },
     });
 

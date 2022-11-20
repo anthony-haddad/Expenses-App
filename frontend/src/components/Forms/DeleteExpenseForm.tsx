@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import { useMutation, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import ExpenseService from '../../utils/services/ExpenseService';
 import { useModalStore, useTableStore } from '../../utils/store/store';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DeleteExpenseForm = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const { selectedExpenseId } = useTableStore();
     const { setIsOpen } = useModalStore();
     const queryClient = useQueryClient();
     const deleteExpenseMutation = useMutation(ExpenseService.deleteExpense, {
-        onSuccess: (res) => {
-            console.log(res);
+        onSuccess: async (res) => {
+            await queryClient.invalidateQueries('getAllExpenses');
             setIsOpen(false);
-            queryClient.invalidateQueries('getAllExpenses');
-        }
+            toast.success(res.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            })
+        },
+        onSettled: () => setIsLoading(false),
     })
 
     const onDeleteHandler = () => {
-       deleteExpenseMutation.mutate(selectedExpenseId); 
+        setIsLoading(true); 
+        deleteExpenseMutation.mutate(selectedExpenseId); 
     }
 
     return (
@@ -28,7 +35,13 @@ const DeleteExpenseForm = () => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant='secondary'>Close</Button>
-                <Button variant='danger' onClick={onDeleteHandler}>Delete</Button>
+                <Button
+                    variant='danger'
+                    onClick={onDeleteHandler}
+                    disabled={isLoading}
+                >
+                    Delete
+                </Button>
             </Modal.Footer>
         </>
     )

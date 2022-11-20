@@ -2,10 +2,12 @@ import React, { useMemo } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import ExpenseService from '../../utils/services/ExpenseService';
 import { useModalStore } from '../../utils/store/store';
 import { expense } from '../../utils/types/expense';
 import classes from './Forms.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateExpenseForm = () => {
     const { setIsOpen } = useModalStore();
@@ -13,9 +15,12 @@ const CreateExpenseForm = () => {
     const queryClient = useQueryClient();
 
     const createExpenseMutation = useMutation(ExpenseService.createExpense, {
-        onSuccess: () => {
+        onSuccess: (res) => {
             queryClient.invalidateQueries('getAllExpenses');
             setIsOpen(false);
+            toast.success(res.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            })
         },
     });
 
