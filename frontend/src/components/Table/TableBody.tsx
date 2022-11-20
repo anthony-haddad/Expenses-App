@@ -26,19 +26,22 @@ const TableBody = () => {
             <td className='fw-bold'>{expense.value}$</td>           
             <td>{expense.description}</td>
             <td colSpan={2}>
-                <Button
-                    variant='primary'
-                    onClick={(e) => onUpdateHandler(e, expense.id)}
-                >
-                    Edit
-                </Button>
-                <Button
-                    className='ms-2'
-                    variant='danger'
-                    onClick={(e) => onDeleteHandler(e, expense.id)}
-                >
-                    Delete
-                </Button>
+                <div className={classes.actionsContainer}>
+                    <Button
+                        className={classes.actionBtn}
+                        variant='primary'
+                        onClick={(e) => onUpdateHandler(e, expense.id)}
+                    >
+                        Edit
+                    </Button>
+                    <Button
+                        className={classes.actionBtn}
+                        variant='danger'
+                        onClick={(e) => onDeleteHandler(e, expense.id)}
+                    >
+                        Delete
+                    </Button>
+                </div>
             </td>
         </tr>
     ));

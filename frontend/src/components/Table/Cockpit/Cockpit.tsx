@@ -15,7 +15,7 @@ const Search = () => {
     }
 
     return (
-        <Form className='d-flex' onSubmit={onSubmitHandler}>
+        <Form className={classes.searchInput} onSubmit={onSubmitHandler}>
             <Form.Group>
                 <Form.Control
                     type='text'
@@ -41,9 +41,9 @@ const Cockpit = () => {
     }
 
     return (
-        <div className='mb-3 d-flex justify-content-between align-items-center'>
+        <div className={classes.cockpit}>
             <Search />
-            <Button onClick={onAddExpenseHandler}>
+            <Button onClick={onAddExpenseHandler} className={classes.addBtn}>
                 <Plus />
                 <span className='ms-2'>Add Expense</span>
             </Button>

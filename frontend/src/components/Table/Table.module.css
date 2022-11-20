@@ -30,3 +30,29 @@
 .tableLoading p {
     color: gray;
 }
+
+.actionsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.actionBtn {
+    width: 80px;
+    height: 30px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: .9em !important;
+}
+
+@media (max-width: 450px) {
+    .actionsContainer {
+        flex-flow: column;
+    }
+
+    .actionBtn {
+        font-size: .8em !important;
+    }
+}
