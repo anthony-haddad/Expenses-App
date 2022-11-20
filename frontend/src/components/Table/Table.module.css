@@ -14,3 +14,19 @@
 .disabled {
     cursor: not-allowed !important;
 }
+
+.tableLoading {
+    height: 400px;
+    background: #eee;
+}
+
+.tableLoading td {
+    border-radius: 7px;
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold;
+}
+
+.tableLoading p {
+    color: gray;
+}

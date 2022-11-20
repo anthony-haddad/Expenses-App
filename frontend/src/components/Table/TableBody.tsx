@@ -6,18 +6,21 @@ import ExpenseService from '../../utils/services/ExpenseService';
 import { useModalStore, useTableStore } from '../../utils/store/store';
 import { ExpenseModel } from '../../utils/types/expense';
 import classes from './Table.module.css';
+import TableLoading from './TableLoading';
 
 const TableBody = () => {
     const [page, setPage] = useState(1);
     const { setAction, setIsOpen } = useModalStore();
     const { setSelectedExpenseId, setExpense, searchTerm } = useTableStore();
-    const { data, refetch } = useQuery(
+    const { data, refetch, isLoading } = useQuery(
         'getAllExpenses',
         () => ExpenseService.getAllExpenses(searchTerm, page)
     );
     const expensesData = data?.data || [];
 
     // Computed
+    const shouldShowExpenses = !isLoading && !!expensesData.length
+
     const expenseList = expensesData.map((expense: ExpenseModel) => (
         <tr key={expense.id} className={classes.tableRow}>
             <td className='fw-bold'>{expense.value}$</td>           
@@ -68,12 +71,16 @@ const TableBody = () => {
     }
 
     useEffect(() => {
+        if (!!searchTerm && !data?.next_page_url) {
+            setPage(1);
+        }
         refetch();
-    }, [refetch, searchTerm, page]);
+    }, [refetch, searchTerm, page, setPage, data]);
 
     return (
         <tbody className={classes.tableBody}>
-            {expensesData.length ? expenseList : null} 
+            {isLoading && <TableLoading />}
+            {shouldShowExpenses ? expenseList : null} 
             {!!expensesData?.length && (
                 <Pagination
                     page={page}
