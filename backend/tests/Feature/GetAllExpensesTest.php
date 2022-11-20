@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Actions\GetAllExpensesAction;
 use App\Models\Expense;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,7 +16,9 @@ class GetAllExpensesTest extends TestCase
     {
         Expense::factory(10)->create();
 
-        $expenses = (new GetAllExpensesAction)();
+        $request = new Request();
+
+        $expenses = (new GetAllExpensesAction)($request);
         $response = json_decode($expenses->content())->data;
 
         $this->assertCount(10, $response);
