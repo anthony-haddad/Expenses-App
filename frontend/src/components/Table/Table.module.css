@@ -1,0 +1,16 @@
+.tableRow > td {
+    vertical-align: middle;
+    height: 20px;
+}
+
+.tableBody {
+    height: 400px !important;
+}
+
+.disabled span {
+    background: #ccc !important;
+}
+
+.disabled {
+    cursor: not-allowed !important;
+}

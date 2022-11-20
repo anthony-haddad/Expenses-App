@@ -1,0 +1,7 @@
+.disabled span {
+    background: #ccc !important;
+}
+
+.disabled {
+    cursor: not-allowed !important;
+}
