@@ -34,7 +34,6 @@ const CreateExpenseForm = () => {
 
     // Computed
     const valueError = useMemo(() => {
-        console.log(errors);
         if (errors?.value?.type === 'required') {
             return 'required'; 
         }
