@@ -68,3 +68,9 @@ This app is deployed on AWS (https://expensemanager.tk)
 **GHA** for continuous integration  
 **Docker** for containerization  
 **Docker Compose** for container orchestration  
+
+---------------------------
+
+### Documentation
+
+Find swagger documentation [here](https://expensemanager.tk/api/documentation)  
