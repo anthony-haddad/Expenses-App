@@ -45,6 +45,8 @@ PER_PAGE=10
 #### Backend
 1- **DarkaOnLine/L5-Swagger** for generating api documentation  
 2- **Laravel Framework** Using php-v8.0
+3- **Nginx** as a web server
+4- **Mysql8** for database
 
 #### Frontend
 1- **React v18**  
