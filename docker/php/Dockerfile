@@ -9,4 +9,6 @@ RUN apt-get update && apt-get install -y vim zip \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+RUN chown -R www-data:www-data /var/www/backend/storage
+
 WORKDIR /var/www
