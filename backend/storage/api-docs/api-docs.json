@@ -1,0 +1,130 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Expense Manager API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/expense": {
+            "get": {
+                "tags": [
+                    "expense"
+                ],
+                "summary": "Get all expenses",
+                "operationId": "getAllExpenses",
+                "responses": {
+                    "200": {
+                        "description": "Invalid ID supplied"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "expense"
+                ],
+                "summary": "Add new expense",
+                "operationId": "a8e3ae7ca07f1c973a526d413dc78a7e",
+                "requestBody": {
+                    "description": "Expense that needs to be added",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Expense"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/expense/{expenseId}": {
+            "put": {
+                "tags": [
+                    "expense"
+                ],
+                "summary": "Update expense by id",
+                "operationId": "a087dc3e494fd1b96d296f48b93de117",
+                "parameters": [
+                    {
+                        "name": "expenseId",
+                        "in": "path",
+                        "description": "Update expense by id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Expense that needs to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Expense"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "expense"
+                ],
+                "summary": "Delete expense by id",
+                "operationId": "39f4c0afc0536d251e9bde01cc146ae3",
+                "parameters": [
+                    {
+                        "name": "expenseId",
+                        "in": "path",
+                        "description": "Delete expense by id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted successfully"
+                    },
+                    "404": {
+                        "description": "Expense not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Expense": {
+                "required": [
+                    "value",
+                    "description"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "value": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
